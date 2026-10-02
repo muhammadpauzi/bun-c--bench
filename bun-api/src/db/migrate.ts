@@ -21,9 +21,13 @@ export async function migrateAndSeed() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
+
+    CREATE INDEX IF NOT EXISTS idx_products_category_id ON products(category_id);
+    CREATE INDEX IF NOT EXISTS idx_products_created_at ON products(created_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_products_price ON products(price);
   `;
 
-  console.log("✅ Tables created.");
+  console.log("✅ Tables & indexes created/verified.");
 
   // Check if categories already exist
   const existingCategories = await client`SELECT count(*) FROM categories`;
