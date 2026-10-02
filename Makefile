@@ -1,4 +1,4 @@
-.PHONY: help build-bun build-dotnet build-all up-postgres up-bun up-dotnet down logs-bun logs-dotnet benchmark test migrate seed
+.PHONY: help build-bun build-dotnet build-all up-postgres up-bun up-dotnet down logs-bun logs-dotnet benchmark test migrate seed monitor
 
 help:
 	@echo "Available commands:"
@@ -11,6 +11,7 @@ help:
 	@echo "  make up-bun         - Deploy & run Bun API container (1 CPU limit)"
 	@echo "  make up-dotnet      - Deploy & run .NET 10 API container (1 CPU limit)"
 	@echo "  make down           - Stop all running containers"
+	@echo "  make monitor        - Live TUI Engine Monitor & Historical Comparison"
 	@echo "  make benchmark      - Run automated k6 benchmark suite"
 	@echo "  make test           - Run Bun API unit test suite"
 
@@ -53,6 +54,9 @@ logs-dotnet:
 # Testing and benchmarking
 test:
 	cd bun-api && bun test
+
+monitor:
+	./benchmarks/monitor.sh
 
 benchmark:
 	./benchmarks/run-benchmark.sh
