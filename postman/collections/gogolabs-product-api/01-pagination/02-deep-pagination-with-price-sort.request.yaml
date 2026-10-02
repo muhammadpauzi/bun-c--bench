@@ -1,0 +1,20 @@
+$kind: http-request
+name: Deep Pagination with Price Sort
+method: POST
+url: '{{baseUrl}}/api/products/search'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "sort": [
+        { "field": "price", "order": "desc" }
+      ],
+      "pagination": {
+        "page": 50,
+        "limit": 20
+      }
+    }

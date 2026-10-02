@@ -1,0 +1,25 @@
+$kind: http-request
+name: Search by Keyword
+method: POST
+url: '{{baseUrl}}/api/products/search'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "filter": {
+        "conditions": [
+          { "field": "name", "operator": "ilike", "value": "Samsung Galaxy" }
+        ]
+      },
+      "sort": [
+        { "field": "price", "order": "desc" }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10
+      }
+    }

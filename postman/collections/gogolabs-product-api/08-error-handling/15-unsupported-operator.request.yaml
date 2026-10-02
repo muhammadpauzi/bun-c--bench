@@ -1,0 +1,18 @@
+$kind: http-request
+name: Unsupported Operator
+method: POST
+url: '{{baseUrl}}/api/products/search'
+order: 3000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "filter": {
+        "conditions": [
+          { "field": "name", "operator": "regex_match", "value": "^[a-z]" }
+        ]
+      }
+    }

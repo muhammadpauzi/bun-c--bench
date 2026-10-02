@@ -1,0 +1,17 @@
+$kind: http-request
+name: First Page
+method: POST
+url: '{{baseUrl}}/api/products/search'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "pagination": {
+        "page": 1,
+        "limit": 10
+      }
+    }

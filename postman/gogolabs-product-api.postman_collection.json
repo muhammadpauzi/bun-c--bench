@@ -1,0 +1,708 @@
+{
+  "info": {
+    "name": "Gogolabs Product API",
+    "description": "Production-ready dynamic filtering, sorting, pagination, and normalized generic grouping API using Bun & Drizzle ORM.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Pagination",
+      "item": [
+        {
+          "name": "First Page",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Deep Pagination with Price Sort",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sort\": [\n    { \"field\": \"price\", \"order\": \"desc\" }\n  ],\n  \"pagination\": {\n    \"page\": 50,\n    \"limit\": 20\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Category Filtering",
+      "item": [
+        {
+          "name": "Filter by Single Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"conditions\": [\n      { \"field\": \"category.slug\", \"operator\": \"eq\", \"value\": \"gadget-smartphone\" }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"price\", \"order\": \"asc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Filter by Multiple Categories",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"conditions\": [\n      {\n        \"field\": \"category.slug\",\n        \"operator\": \"in\",\n        \"value\": [\"laptop-komputer\", \"gadget-smartphone\", \"elektronik-rumah\"]\n      }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"category.name\", \"order\": \"asc\" },\n    { \"field\": \"price\", \"order\": \"desc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 15\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Price Range",
+      "item": [
+        {
+          "name": "Affordable Price Range",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"logic\": \"AND\",\n    \"conditions\": [\n      { \"field\": \"price\", \"operator\": \"gte\", \"value\": 50000 },\n      { \"field\": \"price\", \"operator\": \"lte\", \"value\": 250000 }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"price\", \"order\": \"asc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Premium Products in Laptop & Gadget",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"logic\": \"AND\",\n    \"conditions\": [\n      {\n        \"field\": \"category.slug\",\n        \"operator\": \"in\",\n        \"value\": [\"laptop-komputer\", \"gadget-smartphone\"]\n      },\n      { \"field\": \"price\", \"operator\": \"gte\", \"value\": 15000000 }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"price\", \"order\": \"desc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Text Search",
+      "item": [
+        {
+          "name": "Search by Keyword",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"conditions\": [\n      { \"field\": \"name\", \"operator\": \"ilike\", \"value\": \"Samsung Galaxy\" }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"price\", \"order\": \"desc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Multi-Keyword OR Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"logic\": \"OR\",\n    \"conditions\": [\n      { \"field\": \"name\", \"operator\": \"ilike\", \"value\": \"Asus ROG\" },\n      { \"field\": \"name\", \"operator\": \"ilike\", \"value\": \"Lenovo Legion\" }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"price\", \"order\": \"asc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complex Nested Filters",
+      "item": [
+        {
+          "name": "Education Books with Topic and Price Limit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"logic\": \"AND\",\n    \"conditions\": [\n      { \"field\": \"category.slug\", \"operator\": \"eq\", \"value\": \"buku-pelajaran\" },\n      { \"field\": \"price\", \"operator\": \"lte\", \"value\": 150000 },\n      {\n        \"logic\": \"OR\",\n        \"conditions\": [\n          { \"field\": \"name\", \"operator\": \"ilike\", \"value\": \"Matematika\" },\n          { \"field\": \"name\", \"operator\": \"ilike\", \"value\": \"Fisika\" },\n          { \"field\": \"name\", \"operator\": \"ilike\", \"value\": \"Kurikulum Merdeka\" }\n        ]\n      }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"category.name\", \"order\": \"asc\" },\n    { \"field\": \"price\", \"order\": \"desc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Fashion & Shoes with Popular Brands",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"logic\": \"AND\",\n    \"conditions\": [\n      {\n        \"field\": \"category.slug\",\n        \"operator\": \"in\",\n        \"value\": [\"pakaian-pria\", \"sepatu-sandal\"]\n      },\n      { \"field\": \"price\", \"operator\": \"lte\", \"value\": 1000000 },\n      {\n        \"logic\": \"OR\",\n        \"conditions\": [\n          { \"field\": \"name\", \"operator\": \"ilike\", \"value\": \"Nike\" },\n          { \"field\": \"name\", \"operator\": \"ilike\", \"value\": \"Adidas\" },\n          { \"field\": \"name\", \"operator\": \"ilike\", \"value\": \"Uniqlo\" }\n        ]\n      }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"price\", \"order\": \"asc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Date Range",
+      "item": [
+        {
+          "name": "Products Created in Date Range",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"logic\": \"AND\",\n    \"conditions\": [\n      { \"field\": \"createdAt\", \"operator\": \"gte\", \"value\": \"2026-01-01T00:00:00.000Z\" },\n      { \"field\": \"createdAt\", \"operator\": \"lte\", \"value\": \"2026-06-30T23:59:59.999Z\" }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"createdAt\", \"order\": \"desc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Multi-Column Sorting",
+      "item": [
+        {
+          "name": "Sort by Category, Price, Date",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"conditions\": [\n      {\n        \"field\": \"category.slug\",\n        \"operator\": \"in\",\n        \"value\": [\"makanan-minuman\", \"olahraga-outdoor\", \"kecantikan-perawatan\"]\n      }\n    ]\n  },\n  \"sort\": [\n    { \"field\": \"category.name\", \"order\": \"asc\" },\n    { \"field\": \"price\", \"order\": \"desc\" },\n    { \"field\": \"createdAt\", \"order\": \"desc\" }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 12\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Handling",
+      "item": [
+        {
+          "name": "Unregistered Column Filter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"conditions\": [\n      { \"field\": \"password_hash\", \"operator\": \"eq\", \"value\": \"secret\" }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Unregistered Sort Column",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sort\": [\n    { \"field\": \"internal_token\", \"order\": \"asc\" }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Unsupported Operator",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"conditions\": [\n      { \"field\": \"name\", \"operator\": \"regex_match\", \"value\": \"^[a-z]\" }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Not Found Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/unsupported-endpoint",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "unsupported-endpoint"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Generic Grouping",
+      "item": [
+        {
+          "name": "Group by Category (with Metadata)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"conditions\": [\n      {\n        \"field\": \"category.slug\",\n        \"operator\": \"in\",\n        \"value\": [\"laptop-komputer\", \"gadget-smartphone\", \"buku-pelajaran\"]\n      }\n    ]\n  },\n  \"groupBy\": {\n    \"field\": \"category.id\",\n    \"labelField\": \"category.name\",\n    \"metaFields\": [\"category.slug\"]\n  },\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 15\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Group by Timestamp (Month / Day)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"groupBy\": {\n    \"field\": \"createdAt\",\n    \"dateTrunc\": \"month\"\n  },\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 15\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Group by Price Range Bucket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"groupBy\": {\n    \"field\": \"price\",\n    \"numberBucket\": 5000000\n  },\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 15\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Admin Direct Category ID Filter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/products/search",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "search"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"conditions\": [\n      {\n        \"field\": \"categoryId\",\n        \"operator\": \"is_not_null\"\n      },\n      {\n        \"field\": \"price\",\n        \"operator\": \"lte\",\n        \"value\": 500000\n      }\n    ]\n  },\n  \"groupBy\": {\n    \"field\": \"category.id\",\n    \"labelField\": \"category.name\"\n  },\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories (For Admin Dropdown)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categories"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

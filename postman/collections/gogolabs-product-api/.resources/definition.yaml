@@ -1,0 +1,5 @@
+$kind: collection
+name: Gogolabs Product API
+variables:
+  - key: baseUrl
+    value: 'http://localhost:3000'

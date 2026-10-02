@@ -1,0 +1,34 @@
+$kind: http-request
+name: Admin Direct Category ID Filter
+method: POST
+url: '{{baseUrl}}/api/products/search'
+order: 4000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "filter": {
+        "conditions": [
+          {
+            "field": "categoryId",
+            "operator": "is_not_null"
+          },
+          {
+            "field": "price",
+            "operator": "lte",
+            "value": 500000
+          }
+        ]
+      },
+      "groupBy": {
+        "field": "category.id",
+        "labelField": "category.name"
+      },
+      "pagination": {
+        "page": 1,
+        "limit": 10
+      }
+    }

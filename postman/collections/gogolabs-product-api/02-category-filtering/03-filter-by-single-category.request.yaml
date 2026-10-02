@@ -1,0 +1,25 @@
+$kind: http-request
+name: Filter by Single Category
+method: POST
+url: '{{baseUrl}}/api/products/search'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "filter": {
+        "conditions": [
+          { "field": "category.slug", "operator": "eq", "value": "gadget-smartphone" }
+        ]
+      },
+      "sort": [
+        { "field": "price", "order": "asc" }
+      ],
+      "pagination": {
+        "page": 1,
+        "limit": 10
+      }
+    }

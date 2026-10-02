@@ -1,0 +1,16 @@
+$kind: http-request
+name: Unregistered Sort Column
+method: POST
+url: '{{baseUrl}}/api/products/search'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "sort": [
+        { "field": "internal_token", "order": "asc" }
+      ]
+    }
