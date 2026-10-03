@@ -73,6 +73,5 @@ export default function () {
     errorRate.add(!ok);
   }
 
-  // Think time realistis user di browser (50ms - 100ms)
-  sleep(0.05);
+  // Zero sleep for maximum hardware saturation
 }
