@@ -14,4 +14,4 @@ COPY tsconfig.json ./
 
 EXPOSE 3000
 
-CMD ["bun", "src/index.ts"]
+CMD ["bun", "src/cluster.ts"]

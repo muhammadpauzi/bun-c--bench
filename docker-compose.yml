@@ -63,6 +63,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
+      WORKERS: 4
       DATABASE_URL: postgres://postgres:postgres@pgbouncer:6432/gogoskola_db
     ports:
       - "3000:3000"
