@@ -30,13 +30,12 @@ export const options = {
 };
 
 export default function () {
-  // Hit endpoint filter-sort dengan query cepat
-  const res = http.get(
-    `${TARGET_URL}/api/benchmark/filter-sort?minPrice=100000&maxPrice=1000000&limit=10`
-  );
+  // Hit endpoint products dengan pagination
+  const res = http.get(`${TARGET_URL}/api/products?page=1&limit=10`);
 
   const ok = check(res, {
     "status is 200": (r) => r.status === 200,
+    "has items": (r) => r.json("data.length") > 0,
   });
 
   errorRate.add(!ok);

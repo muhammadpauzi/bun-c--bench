@@ -2,7 +2,6 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { categoriesRoute } from "./routes/categories";
 import { productsRoute } from "./routes/products";
-import { benchmarkRoute } from "./routes/benchmark";
 import { httpLogger } from "./lib/logger";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -52,7 +51,6 @@ export function createApp() {
   // 4. Mounting Modular Sub-Routes
   app.route("/api/categories", categoriesRoute);
   app.route("/api/products", productsRoute);
-  app.route("/api/benchmark", benchmarkRoute);
 
   // 5. Centralized Global Error Handler
   app.onError((err: any, c) => {

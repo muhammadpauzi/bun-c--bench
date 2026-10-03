@@ -18,59 +18,38 @@ export default function () {
     "health has status ok": (r) => r.json("status") === "ok",
   });
 
-  // 2. Categories
+  // 2. Categories (CRUD Read)
   res = http.get(`${BASE_URL}/api/categories`);
   check(res, {
     "categories status is 200": (r) => r.status === 200,
     "categories returns array": (r) => Array.isArray(r.json("data")),
   });
 
-  // 3. Filter & Sort
-  res = http.get(`${BASE_URL}/api/benchmark/filter-sort?minPrice=50000&maxPrice=500000&limit=10`);
+  // 3. Products Paginated List (Page 1)
+  res = http.get(`${BASE_URL}/api/products?page=1&limit=10`);
   check(res, {
-    "filter-sort status is 200": (r) => r.status === 200,
-    "filter-sort returns items": (r) => r.json("count") > 0,
+    "products page 1 status is 200": (r) => r.status === 200,
+    "products returns items": (r) => r.json("data.length") > 0,
+    "products has pagination meta": (r) => r.json("meta.totalCount") !== undefined,
   });
 
-  // 4. Deep Pagination
-  res = http.get(`${BASE_URL}/api/benchmark/pagination-deep?page=100&limit=10`);
+  const firstProdId = res.json("data.0.id");
+
+  // 4. Products Deep Pagination
+  res = http.get(`${BASE_URL}/api/products?page=100&limit=10`);
   check(res, {
-    "pagination-deep status is 200": (r) => r.status === 200,
-    "pagination-deep returns items": (r) => r.json("count") > 0,
+    "deep pagination status is 200": (r) => r.status === 200,
+    "deep pagination returns items": (r) => r.json("data.length") > 0,
   });
 
-  // 5. Search Text (ILIKE)
-  res = http.get(`${BASE_URL}/api/benchmark/search-text?q=Buku&limit=10`);
-  check(res, {
-    "search-text status is 200": (r) => r.status === 200,
-  });
-
-  // 6. Group Aggregate
-  res = http.get(`${BASE_URL}/api/benchmark/group-aggregate`);
-  check(res, {
-    "group-aggregate status is 200": (r) => r.status === 200,
-    "group-aggregate has totalGroups": (r) => r.json("totalGroups") >= 0,
-  });
-
-  // 7. CPU & Heavy JSON
-  res = http.get(`${BASE_URL}/api/benchmark/cpu-json?limit=50`);
-  check(res, {
-    "cpu-json status is 200": (r) => r.status === 200,
-    "cpu-json has transformed fields": (r) => r.json("data.0.tax") !== undefined,
-  });
-
-  // 8. Dynamic Search (POST)
-  const payload = JSON.stringify({
-    pagination: { page: 1, limit: 10 },
-    sort: [{ field: "created_at", order: "desc" }],
-  });
-  res = http.post(`${BASE_URL}/api/products/search`, payload, {
-    headers: { "Content-Type": "application/json" },
-  });
-  check(res, {
-    "dynamic search status is 200": (r) => r.status === 200,
-    "dynamic search has meta": (r) => r.json("meta.totalCount") !== undefined,
-  });
+  // 5. Products Single Item by ID
+  if (firstProdId) {
+    res = http.get(`${BASE_URL}/api/products/${firstProdId}`);
+    check(res, {
+      "product by id status is 200": (r) => r.status === 200,
+      "product has matching id": (r) => r.json("data.id") === firstProdId,
+    });
+  }
 
   sleep(1);
 }

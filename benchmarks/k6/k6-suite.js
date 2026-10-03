@@ -4,12 +4,11 @@ import { Trend, Rate, Counter } from "k6/metrics";
 
 const TARGET_URL = __ENV.TARGET_URL || "http://localhost:3000";
 
-// Custom Trends to break down latency by benchmark case
-const trendFilterSort = new Trend("case_filter_sort_duration");
-const trendPagination = new Trend("case_pagination_deep_duration");
-const trendSearchText = new Trend("case_search_text_duration");
-const trendGroupAggregate = new Trend("case_group_aggregate_duration");
-const trendCpuJson = new Trend("case_cpu_json_duration");
+// Custom Trends to break down latency by CRUD/pagination case
+const trendStandardPagination = new Trend("case_standard_pagination_duration");
+const trendDeepPagination = new Trend("case_deep_pagination_duration");
+const trendCategories = new Trend("case_categories_duration");
+const trendHealth = new Trend("case_health_duration");
 const errorRate = new Rate("error_rate");
 
 export const options = {
@@ -34,47 +33,39 @@ export const options = {
 };
 
 export default function () {
-  // Deterministic random selection based on VU and iteration
   const rand = Math.random();
 
-  if (rand < 0.25) {
-    // Case 1: Filtering & Sorting (25%)
-    const min = Math.floor(Math.random() * 50000);
-    const max = min + 200000;
-    const res = http.get(
-      `${TARGET_URL}/api/benchmark/filter-sort?minPrice=${min}&maxPrice=${max}&limit=20`
-    );
-    trendFilterSort.add(res.timings.duration);
-    const success = check(res, { "filter-sort 200": (r) => r.status === 200 });
+  if (rand < 0.50) {
+    // Case 1: Standard Pagination (Page 1-50, Limit 10) (50%)
+    const page = Math.floor(Math.random() * 50) + 1;
+    const res = http.get(`${TARGET_URL}/api/products?page=${page}&limit=10`);
+    trendStandardPagination.add(res.timings.duration);
+    const success = check(res, {
+      "standard pagination 200": (r) => r.status === 200,
+      "has items": (r) => r.json("data.length") > 0,
+    });
     errorRate.add(!success);
-  } else if (rand < 0.45) {
-    // Case 2: Deep Pagination (20%)
-    const page = Math.floor(Math.random() * 1000) + 1;
-    const res = http.get(
-      `${TARGET_URL}/api/benchmark/pagination-deep?page=${page}&limit=20`
-    );
-    trendPagination.add(res.timings.duration);
-    const success = check(res, { "pagination-deep 200": (r) => r.status === 200 });
+  } else if (rand < 0.75) {
+    // Case 2: Deep Pagination (Page 500-2000, Limit 20) (25%)
+    const page = Math.floor(Math.random() * 1500) + 500;
+    const res = http.get(`${TARGET_URL}/api/products?page=${page}&limit=20`);
+    trendDeepPagination.add(res.timings.duration);
+    const success = check(res, {
+      "deep pagination 200": (r) => r.status === 200,
+      "has items": (r) => r.json("data.length") > 0,
+    });
     errorRate.add(!success);
-  } else if (rand < 0.65) {
-    // Case 3: Search Text ILIKE on 500k data (20%)
-    const queries = ["Galaxy", "Buku", "Xiaomi", "Paket", "Dasar"];
-    const q = queries[Math.floor(Math.random() * queries.length)];
-    const res = http.get(`${TARGET_URL}/api/benchmark/search-text?q=${q}&limit=20`);
-    trendSearchText.add(res.timings.duration);
-    const success = check(res, { "search-text 200": (r) => r.status === 200 });
-    errorRate.add(!success);
-  } else if (rand < 0.80) {
-    // Case 4: Grouping & Aggregation (15%)
-    const res = http.get(`${TARGET_URL}/api/benchmark/group-aggregate`);
-    trendGroupAggregate.add(res.timings.duration);
-    const success = check(res, { "group-aggregate 200": (r) => r.status === 200 });
+  } else if (rand < 0.90) {
+    // Case 3: Categories Listing (15%)
+    const res = http.get(`${TARGET_URL}/api/categories`);
+    trendCategories.add(res.timings.duration);
+    const success = check(res, { "categories 200": (r) => r.status === 200 });
     errorRate.add(!success);
   } else {
-    // Case 5: CPU Compute & Heavy JSON Serialization (20%)
-    const res = http.get(`${TARGET_URL}/api/benchmark/cpu-json?limit=150`);
-    trendCpuJson.add(res.timings.duration);
-    const success = check(res, { "cpu-json 200": (r) => r.status === 200 });
+    // Case 4: Healthcheck (10%)
+    const res = http.get(`${TARGET_URL}/health`);
+    trendHealth.add(res.timings.duration);
+    const success = check(res, { "health 200": (r) => r.status === 200 });
     errorRate.add(!success);
   }
 
