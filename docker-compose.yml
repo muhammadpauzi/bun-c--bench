@@ -23,6 +23,34 @@ services:
       timeout: 5s
       retries: 5
 
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    container_name: gogoskola_pgbouncer
+    restart: always
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: gogoskola_db
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 500
+      DEFAULT_POOL_SIZE: 20
+      MIN_POOL_SIZE: 5
+      RESERVE_POOL_SIZE: 5
+      SERVER_IDLE_TIMEOUT: 60
+      AUTH_TYPE: scram-sha-256
+    ports:
+      - "6432:6432"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
   bun-api:
     build:
       context: ./bun-api
@@ -33,12 +61,14 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/gogoskola_db
+      DATABASE_URL: postgres://postgres:postgres@pgbouncer:6432/gogoskola_db
     ports:
       - "3000:3000"
     depends_on:
       postgres:
         condition: service_healthy
+      pgbouncer:
+        condition: service_started
     deploy:
       resources:
         limits:

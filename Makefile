@@ -29,9 +29,8 @@ build-laravel:
 
 build-all: build-bun build-dotnet build-laravel
 
-# Docker Compose deployment commands
 up-postgres:
-	docker compose up -d postgres
+	docker compose up -d postgres pgbouncer
 
 migrate:
 	docker compose run --rm bun-api bun src/db/migrate.ts
