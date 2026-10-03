@@ -45,10 +45,12 @@ up-bun:
 
 up-dotnet:
 	docker compose --profile bun --profile laravel down > /dev/null 2>&1 || true
+	docker compose up -d pgbouncer
 	docker compose --profile dotnet up -d --build dotnet-api
 
 up-laravel:
 	docker compose --profile bun --profile dotnet down > /dev/null 2>&1 || true
+	docker compose up -d pgbouncer
 	docker compose --profile laravel up -d --build laravel-api
 
 down:

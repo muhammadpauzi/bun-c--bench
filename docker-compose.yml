@@ -88,12 +88,14 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://+:3000
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/gogoskola_db
+      DATABASE_URL: postgres://postgres:postgres@pgbouncer:6432/gogoskola_db
     ports:
       - "3000:3000"
     depends_on:
       postgres:
         condition: service_healthy
+      pgbouncer:
+        condition: service_started
     deploy:
       resources:
         limits:
@@ -113,8 +115,8 @@ services:
       APP_KEY: "base64:qCLOTkcTBQ1lMeO9Ye3D3Pdgm8ls8jI0uUJcyjx2o8Y="
       PORT: 3000
       DB_CONNECTION: pgsql
-      DB_HOST: postgres
-      DB_PORT: 5432
+      DB_HOST: pgbouncer
+      DB_PORT: 6432
       DB_DATABASE: gogoskola_db
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
@@ -123,6 +125,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      pgbouncer:
+        condition: service_started
     deploy:
       resources:
         limits:
