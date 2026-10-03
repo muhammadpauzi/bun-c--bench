@@ -40,6 +40,7 @@ seed:
 
 up-bun:
 	docker compose --profile dotnet --profile laravel down > /dev/null 2>&1 || true
+	docker compose up -d pgbouncer
 	docker compose --profile bun up -d --build bun-api
 
 up-dotnet:

@@ -34,12 +34,14 @@ services:
       DB_PORT: 5432
       DB_NAME: gogoskola_db
       POOL_MODE: transaction
+      LISTEN_PORT: 6432
       MAX_CLIENT_CONN: 500
       DEFAULT_POOL_SIZE: 20
       MIN_POOL_SIZE: 5
       RESERVE_POOL_SIZE: 5
       SERVER_IDLE_TIMEOUT: 60
-      AUTH_TYPE: scram-sha-256
+      AUTH_TYPE: plain
+      IGNORE_STARTUP_PARAMETERS: extra_float_digits
     ports:
       - "6432:6432"
     depends_on:
