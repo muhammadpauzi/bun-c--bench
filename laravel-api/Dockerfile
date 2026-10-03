@@ -17,6 +17,9 @@ COPY . /app
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
+RUN mkdir -p /app/storage/framework/{sessions,views,cache} /app/storage/logs /app/bootstrap/cache \
+    && chmod -R 777 /app/storage /app/bootstrap/cache
+
 ENV PORT=3000
 EXPOSE 3000
 
