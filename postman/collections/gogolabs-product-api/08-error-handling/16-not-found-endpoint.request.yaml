@@ -1,5 +1,0 @@
-$kind: http-request
-name: Not Found Endpoint
-method: GET
-url: '{{baseUrl}}/api/unsupported-endpoint'
-order: 4000

@@ -1,7 +1,7 @@
 $kind: http-request
-name: Unregistered Sort Column
+name: Create Category
 method: POST
-url: '{{baseUrl}}/api/products/search'
+url: "{{baseUrl}}/api/categories"
 order: 2000
 headers:
   - key: Content-Type
@@ -10,7 +10,6 @@ body:
   type: json
   content: |-
     {
-      "sort": [
-        { "field": "internal_token", "order": "asc" }
-      ]
+      "name": "Elektronik & Gadget",
+      "slug": "elektronik-gadget"
     }

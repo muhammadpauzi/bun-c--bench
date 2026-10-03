@@ -1,0 +1,15 @@
+$kind: http-request
+name: Update Product
+method: PUT
+url: "{{baseUrl}}/api/products/{{productId}}"
+order: 5000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Sony Alpha A7 IV Mirrorless Body Only (Promo)",
+      "price": 32999000.00
+    }

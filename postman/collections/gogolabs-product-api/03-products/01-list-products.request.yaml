@@ -1,0 +1,5 @@
+$kind: http-request
+name: List Products (Paginated)
+method: GET
+url: "{{baseUrl}}/api/products?page=1&limit=10"
+order: 1000

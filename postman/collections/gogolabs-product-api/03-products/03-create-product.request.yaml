@@ -1,8 +1,8 @@
 $kind: http-request
-name: First Page
+name: Create Product
 method: POST
-url: '{{baseUrl}}/api/products/search'
-order: 1000
+url: "{{baseUrl}}/api/products"
+order: 3000
 headers:
   - key: Content-Type
     value: application/json
@@ -10,8 +10,6 @@ body:
   type: json
   content: |-
     {
-      "pagination": {
-        "page": 1,
-        "limit": 10
-      }
+      "name": "Sony Alpha A7 IV Mirrorless",
+      "price": 34999000.00
     }
