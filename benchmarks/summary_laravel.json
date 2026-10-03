@@ -1,0 +1,228 @@
+{
+    "metrics": {
+        "case_deep_pagination_duration": {
+            "p(95)": 3205.1818684,
+            "avg": 1597.7924049904218,
+            "min": 143.606995,
+            "med": 1482.7717109999999,
+            "max": 3534.954716,
+            "p(90)": 2944.0198264
+        },
+        "http_req_blocked": {
+            "med": 0.0155935,
+            "max": 210.782557,
+            "p(90)": 0.03331429999999998,
+            "p(95)": 0.05467039999999978,
+            "avg": 1.6145382551020402,
+            "min": 0.003491
+        },
+        "http_req_sending": {
+            "avg": 0.06992016428571433,
+            "min": 0.010235,
+            "med": 0.053426,
+            "max": 2.202878,
+            "p(90)": 0.1080472,
+            "p(95)": 0.14425604999999903
+        },
+        "checks": {
+            "passes": 4481,
+            "fails": 0,
+            "value": 1
+        },
+        "http_req_duration": {
+            "avg": 1448.0760325452372,
+            "min": 37.722232,
+            "med": 1352.877373,
+            "max": 3534.954716,
+            "p(90)": 2721.6924218999998,
+            "p(95)": 3014.87526515,
+            "thresholds": {
+                "p(95)<1000": true
+            }
+        },
+        "vus": {
+            "value": 2,
+            "min": 1,
+            "max": 99
+        },
+        "http_reqs": {
+            "count": 2940,
+            "rate": 32.64358677705528
+        },
+        "http_req_tls_handshaking": {
+            "med": 0,
+            "max": 0,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0
+        },
+        "iteration_duration": {
+            "med": 1480.100889,
+            "max": 8953.327191,
+            "p(90)": 3204.8027945,
+            "p(95)": 3548.93657575,
+            "avg": 1754.4856803661876,
+            "min": 89.790756
+        },
+        "case_delete_product_duration": {
+            "med": 1244.2902629999999,
+            "max": 3278.356557,
+            "p(90)": 2610.1737858,
+            "p(95)": 2799.6975953999995,
+            "avg": 1313.2373901863627,
+            "min": 44.085698
+        },
+        "data_sent": {
+            "count": 383250,
+            "rate": 4255.324704866135
+        },
+        "case_update_product_duration": {
+            "min": 45.890067,
+            "med": 1274.9779275,
+            "max": 3308.677755,
+            "p(90)": 2610.2586276,
+            "p(95)": 2780.5129207,
+            "avg": 1328.8707757657658
+        },
+        "case_standard_pagination_duration": {
+            "p(90)": 2778.370813,
+            "p(95)": 3026.329157,
+            "avg": 1481.5756133980653,
+            "min": 85.675874,
+            "med": 1390.013858,
+            "max": 3524.980918
+        },
+        "case_insert_product_duration": {
+            "med": 1294.045859,
+            "max": 3185.340689,
+            "p(90)": 2611.2722005,
+            "p(95)": 2726.3127957999995,
+            "avg": 1362.4652980291971,
+            "min": 37.722232
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 2940,
+            "thresholds": {
+                "rate<0.05": false
+            },
+            "value": 0
+        },
+        "case_categories_duration": {
+            "avg": 1365.95374765272,
+            "min": 38.398709,
+            "med": 1273.450673,
+            "max": 3338.991642,
+            "p(90)": 2670.1050902,
+            "p(95)": 3076.5046359
+        },
+        "vus_max": {
+            "value": 100,
+            "min": 100,
+            "max": 100
+        },
+        "http_req_duration{expected_response:true}": {
+            "min": 37.722232,
+            "med": 1352.877373,
+            "max": 3534.954716,
+            "p(90)": 2721.6924218999998,
+            "p(95)": 3014.87526515,
+            "avg": 1448.0760325452372
+        },
+        "http_req_waiting": {
+            "avg": 1447.258810348641,
+            "min": 36.402285,
+            "med": 1352.3391215,
+            "max": 3533.962786,
+            "p(90)": 2720.9372125,
+            "p(95)": 3013.8456865999997
+        },
+        "iterations": {
+            "count": 2496,
+            "rate": 27.713738978071426
+        },
+        "http_req_receiving": {
+            "med": 0.243368,
+            "max": 101.855663,
+            "p(90)": 1.4038440999999997,
+            "p(95)": 2.5812947999999927,
+            "avg": 0.7473020323129258,
+            "min": 0.045425
+        },
+        "data_received": {
+            "count": 9017832,
+            "rate": 100127.34062343743
+        },
+        "http_req_connecting": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 1.5878122602040818,
+            "min": 0,
+            "med": 0,
+            "max": 210.67984
+        },
+        "error_rate": {
+            "passes": 0,
+            "fails": 2496,
+            "value": 0
+        }
+    },
+    "root_group": {
+        "checks": {
+            "standard pagination 200": {
+                "name": "standard pagination 200",
+                "path": "::standard pagination 200",
+                "id": "d467b53691dee92cf248a96cff91fbba",
+                "passes": 1241,
+                "fails": 0
+            },
+            "has items": {
+                "name": "has items",
+                "path": "::has items",
+                "id": "a26ba3373a464cabfd3ac187534f4261",
+                "passes": 1763,
+                "fails": 0
+            },
+            "insert product 201": {
+                "id": "ddd86f62a2627e990f1908ea1c195674",
+                "passes": 274,
+                "fails": 0,
+                "name": "insert product 201",
+                "path": "::insert product 201"
+            },
+            "categories 200": {
+                "name": "categories 200",
+                "path": "::categories 200",
+                "id": "dd8ff4f941ada042d6dd9255c467d7f5",
+                "passes": 239,
+                "fails": 0
+            },
+            "update product 200": {
+                "name": "update product 200",
+                "path": "::update product 200",
+                "id": "2eba06a0dd1d93a07acb1924f8f94c58",
+                "passes": 222,
+                "fails": 0
+            },
+            "delete product 200": {
+                "name": "delete product 200",
+                "path": "::delete product 200",
+                "id": "f4a692145ed99d801dc903d90559ee84",
+                "passes": 220,
+                "fails": 0
+            },
+            "deep pagination 200": {
+                "fails": 0,
+                "name": "deep pagination 200",
+                "path": "::deep pagination 200",
+                "id": "8674dab5b5460bea771c3564d9b56013",
+                "passes": 522
+            }
+        },
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {}
+    }
+}
