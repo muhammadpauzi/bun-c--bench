@@ -11,12 +11,12 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    command: postgres -c max_connections=300 -c shared_buffers=256MB
+    command: postgres -c max_connections=300 -c shared_buffers=1GB -c effective_cache_size=3GB -c work_mem=32MB -c maintenance_work_mem=256MB
     deploy:
       resources:
         limits:
-          cpus: '1.5'
-          memory: 1024M
+          cpus: '2.5'
+          memory: 3072M
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d gogoskola_db"]
       interval: 5s
@@ -42,8 +42,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: 768M
+          cpus: '3.0'
+          memory: 4096M
 
   dotnet-api:
     build:
@@ -64,8 +64,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: 768M
+          cpus: '3.0'
+          memory: 4096M
 
   laravel-api:
     build:
@@ -93,8 +93,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
-          memory: 768M
+          cpus: '3.0'
+          memory: 4096M
 
 volumes:
   pgdata:
