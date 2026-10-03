@@ -1,15 +1,17 @@
-.PHONY: help build-bun build-dotnet build-all up-postgres up-bun up-dotnet down logs-bun logs-dotnet benchmark test migrate seed monitor
+.PHONY: help build-bun build-dotnet build-laravel build-all up-postgres up-bun up-dotnet up-laravel down logs-bun logs-dotnet logs-laravel benchmark test migrate seed monitor
 
 help:
 	@echo "Available commands:"
 	@echo "  make build-bun      - Build Docker image for Bun API"
 	@echo "  make build-dotnet   - Build Docker image for .NET 10 API"
-	@echo "  make build-all      - Build both Docker images"
+	@echo "  make build-laravel  - Build Docker image for Laravel FrankenPHP API"
+	@echo "  make build-all      - Build all Docker images"
 	@echo "  make up-postgres    - Start PostgreSQL database"
 	@echo "  make migrate        - Run DB migrations (via Docker container)"
 	@echo "  make seed           - Seed 500.000 records to DB (via Docker container)"
-	@echo "  make up-bun         - Deploy & run Bun API container (1 CPU limit)"
-	@echo "  make up-dotnet      - Deploy & run .NET 10 API container (1 CPU limit)"
+	@echo "  make up-bun         - Deploy & run Bun API container (0.5 CPU limit)"
+	@echo "  make up-dotnet      - Deploy & run .NET 10 API container (0.5 CPU limit)"
+	@echo "  make up-laravel     - Deploy & run Laravel FrankenPHP API container (0.5 CPU limit)"
 	@echo "  make down           - Stop all running containers"
 	@echo "  make monitor        - Live TUI Engine Monitor & Historical Comparison"
 	@echo "  make benchmark      - Run automated k6 benchmark suite"
@@ -22,7 +24,10 @@ build-bun:
 build-dotnet:
 	docker build -t gogoskola-dotnet:latest ./dotnet-api
 
-build-all: build-bun build-dotnet
+build-laravel:
+	docker build -t gogoskola-laravel:latest ./laravel-api
+
+build-all: build-bun build-dotnet build-laravel
 
 # Docker Compose deployment commands
 up-postgres:
@@ -35,21 +40,28 @@ seed:
 	docker compose run --rm bun-api bun src/db/seed-500k.ts
 
 up-bun:
-	docker compose --profile dotnet down > /dev/null 2>&1 || true
+	docker compose --profile dotnet --profile laravel down > /dev/null 2>&1 || true
 	docker compose --profile bun up -d --build bun-api
 
 up-dotnet:
-	docker compose --profile bun down > /dev/null 2>&1 || true
+	docker compose --profile bun --profile laravel down > /dev/null 2>&1 || true
 	docker compose --profile dotnet up -d --build dotnet-api
 
+up-laravel:
+	docker compose --profile bun --profile dotnet down > /dev/null 2>&1 || true
+	docker compose --profile laravel up -d --build laravel-api
+
 down:
-	docker compose --profile bun --profile dotnet down
+	docker compose --profile bun --profile dotnet --profile laravel down
 
 logs-bun:
 	docker compose logs -f bun-api
 
 logs-dotnet:
 	docker compose logs -f dotnet-api
+
+logs-laravel:
+	docker compose logs -f laravel-api
 
 # Testing and benchmarking
 test:

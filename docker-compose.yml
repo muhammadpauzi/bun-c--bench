@@ -14,7 +14,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1.0'
+          cpus: '1.5'
           memory: 1024M
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d gogoskola_db"]
@@ -41,7 +41,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1.0'
+          cpus: '0.5'
           memory: 768M
 
   dotnet-api:
@@ -63,7 +63,35 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1.0'
+          cpus: '0.5'
+          memory: 768M
+
+  laravel-api:
+    build:
+      context: ./laravel-api
+      dockerfile: Dockerfile
+    container_name: gogoskola_laravel
+    profiles:
+      - laravel
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      PORT: 3000
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: gogoskola_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
           memory: 768M
 
 volumes:

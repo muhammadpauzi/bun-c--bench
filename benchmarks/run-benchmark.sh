@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 echo "=========================================================="
-echo "🚀 GOGOLABS BENCHMARK SUITE: BUN vs .NET 10 (1 vCPU LIMIT)"
+echo "🚀 GOGOLABS BENCHMARK SUITE: BUN vs .NET 10 vs LARAVEL (0.5 vCPU LIMIT)"
 echo "Target Host: $TARGET_HOST"
 echo "Root Dir:    $ROOT_DIR"
 echo "=========================================================="

@@ -35,3 +35,8 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # .NET build outputs
 **/bin/
 **/obj/
+
+# PHP / Composer
+**/vendor/
+laravel-api/.env
+bun-api-backup/node_modules/

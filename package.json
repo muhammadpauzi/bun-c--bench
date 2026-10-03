@@ -4,6 +4,7 @@
   "scripts": {
     "dev:bun": "cd bun-api && bun run dev",
     "dev:dotnet": "cd dotnet-api && dotnet run",
+    "dev:laravel": "cd laravel-api && php artisan octane:frankenphp --port=3000",
     "test:bun": "cd bun-api && bun test",
     "db:migrate": "cd bun-api && bun src/db/migrate.ts",
     "seed:500k": "cd bun-api && bun src/db/seed-500k.ts",

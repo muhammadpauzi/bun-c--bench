@@ -1,6 +1,72 @@
 @baseUrl = http://localhost:3000
 
 ### ==========================================================================
+### 0. FULL CRUD ENDPOINTS (PAGINATION ONLY - BUN, .NET, & LARAVEL PARITY)
+### ==========================================================================
+
+### 0.1 Health Check
+GET {{baseUrl}}/health
+
+### 0.2 Categories - List All
+GET {{baseUrl}}/api/categories
+
+### 0.3 Categories - Create Category
+# @name createCategory
+POST {{baseUrl}}/api/categories
+Content-Type: application/json
+
+{
+  "name": "Kamera & Fotografi",
+  "slug": "kamera-fotografi"
+}
+
+### 0.4 Categories - Get Category by ID
+GET {{baseUrl}}/api/categories/{{createCategory.response.body.data.id}}
+
+### 0.5 Categories - Update Category
+PUT {{baseUrl}}/api/categories/{{createCategory.response.body.data.id}}
+Content-Type: application/json
+
+{
+  "name": "Kamera, Lensa & Fotografi",
+  "slug": "kamera-lensa-fotografi"
+}
+
+### 0.6 Categories - Delete Category
+DELETE {{baseUrl}}/api/categories/{{createCategory.response.body.data.id}}
+
+### 0.7 Products - List (Page 1, Limit 10, Pagination Only)
+GET {{baseUrl}}/api/products?page=1&limit=10
+
+### 0.8 Products - List (Page 2, Limit 20)
+GET {{baseUrl}}/api/products?page=2&limit=20
+
+### 0.9 Products - Create Product
+# @name createProduct
+POST {{baseUrl}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Sony Alpha A7 IV Mirrorless",
+  "price": 34999000.00
+}
+
+### 0.10 Products - Get Product by ID
+GET {{baseUrl}}/api/products/{{createProduct.response.body.data.id}}
+
+### 0.11 Products - Update Product
+PUT {{baseUrl}}/api/products/{{createProduct.response.body.data.id}}
+Content-Type: application/json
+
+{
+  "name": "Sony Alpha A7 IV Mirrorless Body Only (Promo)",
+  "price": 32999000.00
+}
+
+### 0.12 Products - Delete Product
+DELETE {{baseUrl}}/api/products/{{createProduct.response.body.data.id}}
+
+### ==========================================================================
 ### 1. PENCARIAN STANDAR & PAGINASI (500.000 DATA)
 ### ==========================================================================
 
