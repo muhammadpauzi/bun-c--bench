@@ -77,6 +77,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
+      APP_KEY: "base64:qCLOTkcTBQ1lMeO9Ye3D3Pdgm8ls8jI0uUJcyjx2o8Y="
       PORT: 3000
       DB_CONNECTION: pgsql
       DB_HOST: postgres
