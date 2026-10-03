@@ -93,10 +93,49 @@ docker stats gogoskola_dotnet --no-stream --format "Container: {{.Name}} | CPU: 
 echo "Stopping .NET container..."
 docker compose --profile dotnet down
 
+# Cooldown
+echo "⏳ Cooldown 10s for database & system to stabilize..."
+sleep 10
+
+# ---------------------------------------------------------
+# BENCHMARK 3: LARAVEL (OCTANE + FRANKENPHP)
+# ---------------------------------------------------------
+echo ""
+echo "=========================================================="
+echo "🔴 STARTING BENCHMARK: LARAVEL (OCTANE + FRANKENPHP)"
+echo "=========================================================="
+docker compose --profile bun --profile dotnet down > /dev/null 2>&1 || true
+docker compose --profile laravel up -d --build laravel-api
+
+echo "Waiting for Laravel service to be ready on $TARGET_HOST/health..."
+until curl -s "$TARGET_HOST/health" | grep -q '"status":"ok"'; do
+  sleep 1
+done
+echo "✅ Laravel is ready!"
+
+echo "--- Idle Resource Usage ---"
+docker stats gogoskola_laravel --no-stream --format "Container: {{.Name}} | CPU: {{.CPUPerc}} | MEM: {{.MemUsage}}"
+
+echo ""
+echo "Running smoke test on Laravel..."
+k6 run -e TARGET_URL="$TARGET_HOST" "$SCRIPT_DIR/k6/k6-smoke.js"
+
+echo ""
+echo "🔥 Executing full k6 load test on Laravel..."
+k6 run --summary-export="$SCRIPT_DIR/summary_laravel.json" -e TARGET_URL="$TARGET_HOST" "$SCRIPT_DIR/k6/k6-suite.js"
+
+echo "--- Peak/Post Load Resource Usage ---"
+docker stats gogoskola_laravel --no-stream --format "Container: {{.Name}} | CPU: {{.CPUPerc}} | MEM: {{.MemUsage}}"
+
+echo "Stopping Laravel container..."
+docker compose --profile laravel down
+
 echo ""
 echo "=========================================================="
 echo "🏁 BENCHMARK COMPLETED!"
 echo "Summary JSON files saved to:"
 echo "  - Bun:     $SCRIPT_DIR/summary_bun.json"
 echo "  - .NET 10: $SCRIPT_DIR/summary_dotnet.json"
+echo "  - Laravel: $SCRIPT_DIR/summary_laravel.json"
 echo "=========================================================="
+

@@ -44,7 +44,10 @@ export default function () {
     trendStandardPagination.add(res.timings.duration);
     const success = check(res, {
       "standard pagination 200": (r) => r.status === 200,
-      "has items": (r) => r.json("data.length") > 0,
+      "has items": (r) => {
+        const body = r.json();
+        return Array.isArray(body?.data) && body.data.length > 0;
+      },
     });
     errorRate.add(!success);
   } else if (rand < 0.70) {
@@ -54,7 +57,10 @@ export default function () {
     trendDeepPagination.add(res.timings.duration);
     const success = check(res, {
       "deep pagination 200": (r) => r.status === 200,
-      "has items": (r) => r.json("data.length") > 0,
+      "has items": (r) => {
+        const body = r.json();
+        return Array.isArray(body?.data) && body.data.length > 0;
+      },
     });
     errorRate.add(!success);
   } else if (rand < 0.80) {
